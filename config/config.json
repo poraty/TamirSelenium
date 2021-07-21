@@ -1,0 +1,10 @@
+{
+   "web_site_url":"http://automationpractice.com/index.php",
+   "email":"someMail@myMail.com",
+   "password":"MyPass321",
+   "start_time_format":"%y_%m_%d-%H_%M_%S",
+   "logging_format":"%(asctime)s [%(levelname)s] %(funcName)s Line No_%(lineno)d %(message)s",
+   "date_format":"%Y_%m_%d %H_%M_%S",
+   "default_log_name":"File_Log",
+   "log_level" : "DEBUG"
+}
