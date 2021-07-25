@@ -3,8 +3,10 @@
    "email":"someMail@myMail.com",
    "password":"MyPass321",
    "start_time_format":"%y_%m_%d-%H_%M_%S",
-   "logging_format":"%(asctime)s [%(levelname)s] %(funcName)s Line No_%(lineno)d %(message)s",
+   "old_logging_format":"%(asctime)s [%(levelname)s] %(funcName)s Line No_%(lineno)d %(message)s",
+   "logging_format":"%(asctime)s [%(levelname)s] %(funcName)s(%(lineno)d): %(message)s",
    "date_format":"%Y_%m_%d %H_%M_%S",
    "default_log_name":"File_Log",
-   "log_level" : "DEBUG"
+   "log_level" : "DEBUG",
+   "Shuki_web_site_url":"C:/Users/PORATY/Desktop/HTML%20Task/Page_one.html"
 }

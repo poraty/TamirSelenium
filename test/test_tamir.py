@@ -1,154 +1,78 @@
-import time
-from typing import List
+import infra.helper.web_element.web_element_helper as web_element_helper
+from infra.helper.web_element.web_element_helper import WEB_ELEMENT_TYPE as WEB_ELEMENT_TYPE
+import logic.login_page.login_page as login_page
+import logic.search.search_page as search_page
+import infra.helper.web_element.web_element_helper as web_element_helper
 
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver import ChromeOptions
-from selenium.webdriver.remote.webelement import WebElement
-from definitions import CHROME_DRIVER_PATH
+# For Shuki Site
 import logging
-from conftest import get_configuration_value
-
-
-# driver = None
-
-
-def get_driver(chrome_driver_path: str) -> webdriver:
-    opts = ChromeOptions()
-    # This will not close the browser at the end of the test
-    opts.add_experimental_option("detach", True)
-
-    return webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=opts)
-
-
-# def test_something():
-#     global driver
-#     driver = get_driver()
-#     get_to_login_page()
-#     class_name = "myaccount-link-list"
-#     get_class_web_element(class_name)
-
-
-# def do_login(email, password):
-#     login_form = driver.find_element_by_id("login_form")
-#     login_form_content = login_form.find_element_by_class_name("form_content")
-#     # Enter mail
-#     login_form_content.find_element_by_id("email").send_keys(email)
-#     # Enter password
-#     login_form_content.find_element_by_id("passwd").send_keys(password)
-#     # Click on submit
-#     login_form_content.find_element_by_id("SubmitLogin").click()
-
+from selenium import webdriver
+from selenium.webdriver.remote.webelement import WebElement
+import time
 
 # UN: someMail@myMail.com
 # Pass: MyPass321
-def test_tamir(init_configs, handle_web_driver, init_log):
-    # logging.getLogger(get_configuration_value("default_log_name")).info("Testing the log")
-    # logging.getLogger(get_configuration_value("default_log_name")).warning("Testing the log WRN")
-    # global driver
-    # driver = handle_web_driver
-    # driver = get_driver(CHROME_DRIVER_PATH)
-    get_to_login_page(web_site_url=init_configs["web_site_url"], driver=handle_web_driver)
-    do_login(email=init_configs["email"], password=init_configs["password"], driver=handle_web_driver)
-    click_on_home_button(driver=handle_web_driver)
-    product_containers_list = get_search_results(search_query="summer", driver=handle_web_driver)
-    # get_product_by_sum(product_containers_list, "30.50")
-    get_product_by_cost(product_containers_list, "\n$30.50\n")
+def test_tamir(init_configs, init_log, handle_web_driver):
+    login_page.get_to_login_page(web_site_url=init_configs["web_site_url"], driver=handle_web_driver, logger=init_log)
+    login_page.do_login(email=init_configs["email"], password=init_configs["password"], driver=handle_web_driver,
+                        logger=init_log)
+    login_page.click_on_home_button(driver=handle_web_driver, logger=init_log)
+    product_containers_list = search_page.get_search_results(search_query="summer", driver=handle_web_driver,
+                                                             logger=init_log)
+    search_page.get_product_by_cost(product_containers_list, "$30.50", init_log)
 
 
-def get_to_login_page(web_site_url: str, driver: webdriver):
+def test_shuki(init_configs, handle_web_driver, init_log):
+    handle_web_driver.get(init_configs["web_site_url"])
+    header = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.CLASS
+                                                , base_web_element=handle_web_driver
+                                                , look_for="header_user_info", logger=init_log)
+    init_log.info(header.text)
+    print(header.text)
+
+
+def test_selenium(init_configs, init_log, handle_web_driver):
+    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    go_to_page_three("Page_three.html", handle_web_driver, init_log)
+
+    # automation_practice_iframe = get_iframe_web_element(handle_web_driver, init_log)
+    # automation_practice_iframe = handle_web_driver.find_elements_by_tag_name('iframe')[0]
+    save_the_orig_driver = handle_web_driver
+    handle_web_driver.switch_to.frame(handle_web_driver.find_elements_by_tag_name("iframe")[0])
+    # handle_web_driver = handle_web_driver.switch_to.frame(automation_practice_iframe)
+    time.sleep(5)
+    temp_get_to_login_page(driver=handle_web_driver, logger=init_log)
+    login_page.do_login(email=init_configs["email"], password=init_configs["password"], driver=handle_web_driver,
+                        logger=init_log)
+    login_page.click_on_home_button(driver=handle_web_driver, logger=init_log)
+
+
+# Functions just for this test
+def open_shuki_site(web_site_url: str, driver: webdriver, logger: logging.Logger):
+    logger.info(f"Opening the address: {web_site_url}")
     driver.get(web_site_url)
+
+
+def go_to_page_three(href: str, base_web_element: WebElement, logger: logging.Logger):
+    navbar = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.CLASS
+                                       , base_web_element=base_web_element
+                                       , look_for="navbar"
+                                       , logger=logger)
+
+    page_two = navbar.find_element_by_xpath('//a[@href="'+href+'"]')
+    page_two.click()
+
+
+def get_iframe_web_element(driver: webdriver, logger: logging.Logger):
+    return web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
+                                       , base_web_element=driver
+                                       , look_for="automation_practice_iframe"
+                                       , logger=logger)
+
+
+def temp_get_to_login_page(driver: webdriver, logger: logging.Logger):
+    # driver.get(web_site_url)
     header = driver.find_element_by_class_name("header_user_info")
     login_btn = header.find_element_by_class_name("login")
     login_btn.click()
-    # Wait for login page to load
-    time.sleep(4)
-
-
-def do_login(email, password, driver):
-    login_form = driver.find_element_by_id("login_form")
-    login_form_content = login_form.find_element_by_class_name("form_content")
-    # Enter mail
-    login_form_content.find_element_by_id("email").send_keys(email)
-    # Enter password
-    login_form_content.find_element_by_id("passwd").send_keys(password)
-    # Click on submit
-    login_form_content.find_element_by_id("SubmitLogin").click()
-    class_name = "myaccount-link-list"
-    get_class_web_element(class_name, driver=driver)
-
-
-def get_class_web_element(class_name: str, driver: webdriver) -> WebElement:
-    try:
-        return driver.find_element_by_class_name(class_name)
-    except NoSuchElementException as e:
-        assert False, f"Failed to find the class name: {class_name}. error={str(e)}"
-
-
-# def get_class_web_element_with_base(current_base_class: WebElement, class_name: str) -> WebElement:
-#     try:
-#         return current_base_class.find_element_by_class_name(class_name)
-#     except NoSuchElementException as e:
-#         assert False, f"Failed to find the class name: {class_name}. error={str(e)}"
-#
-#
-# def get_class_web_elements(current_base_class: WebElement, class_name: str) -> List[WebElement]:
-#     try:
-#         return current_base_class.find_elements_by_class_name(class_name)
-#     except NoSuchElementException as e:
-#         assert False, f"Failed to find the class name: {class_name}. error={str(e)}"
-#
-#
-# def get_id_web_element(id: str, driver: webdriver) -> WebElement:
-#     try:
-#         return driver.find_element_by_id(id)
-#     except NoSuchElementException as e:
-#         assert False, f"Failed to find the id: {id}. error={str(e)}"
-#
-#
-# def get_id_web_element_by_base(current_base_element: WebElement, id: str) -> WebElement:
-#     try:
-#         return current_base_element.find_element_by_id(id)
-#     except NoSuchElementException as e:
-#         assert False, f"Failed to find the id: {id}. error={str(e)}"
-
-
-def click_on_home_button(driver: webdriver):
-    get_class_web_element("icon-home", driver=driver).click()
-    get_id_web_element("home-page-tabs", driver=driver)
-
-
-def get_search_results(search_query: str, driver: webdriver) -> list:
-    search_block_top = get_id_web_element("search_block_top", driver=driver)
-
-    # Write the search query
-    get_class_web_element_with_base(search_block_top, "search_query").send_keys(search_query)
-
-    # Click on search button
-    get_class_web_element_with_base(search_block_top, "button-search").click()
-    time.sleep(4)
-    base_product_list = get_class_web_element("product_list", driver=driver)
-    product_containers_list = get_class_web_elements(base_product_list, "product-container")
-    print(type(product_containers_list))
-    print(len(product_containers_list))
-    assert 0 < len(product_containers_list), f"No items were found for the search query= {search_query}"
-    return product_containers_list
-
-
-def get_product_by_cost(product_containers_list: list, cost: str) -> WebElement:
-    for elm in product_containers_list:
-
-        # Why this is not the right action to get the cost?
-        # print(elm.find_element_by_class_name("product-price").text)
-
-        # The right action
-        is_found = cost in elm.text
-        print(is_found)
-        if is_found:
-            # elm.click()
-            print(f"The item with the cost= {cost} is found! it's text= {elm.text}")
-            return elm
-
-    assert False, f"Didn't find the cost: {cost}"
-
-
+    logger.info("After clicking on login button")
