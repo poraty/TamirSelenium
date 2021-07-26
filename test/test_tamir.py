@@ -11,6 +11,7 @@ from selenium.webdriver.remote.webelement import WebElement
 import time
 # from random import randrange
 import random
+from selenium.webdriver.support.ui import Select
 
 
 # UN: someMail@myMail.com
@@ -40,13 +41,12 @@ def test_selenium_iframe(init_configs, init_log, handle_web_driver):
     # Go to page three on my website
     go_to_shuki_page("Page_three.html", handle_web_driver, init_log)
 
-    # automation_practice_iframe = get_iframe_web_element(handle_web_driver, init_log)
+    automation_practice_iframe = get_iframe_web_element(handle_web_driver, init_log)
     # automation_practice_iframe = handle_web_driver.find_elements_by_tag_name('iframe')[0]
     # save_the_orig_driver = handle_web_driver
 
     # switch to i-frame
-    handle_web_driver.switch_to.frame(handle_web_driver.find_elements_by_tag_name("iframe")[0])
-    # handle_web_driver = handle_web_driver.switch_to.frame(automation_practice_iframe)
+    handle_web_driver.switch_to.frame(automation_practice_iframe)
     time.sleep(5)
 
     # Go to login page on automation practice website
@@ -77,9 +77,9 @@ def test_button_accept(init_configs, init_log, handle_web_driver):
     alert_driver.accept()
     time.sleep(5)
     maccabi_logo_list = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID_LIST
-                                              , base_web_element=handle_web_driver
-                                              , look_for="maccabi_logo"
-                                              , logger=init_log)
+                                                           , base_web_element=handle_web_driver
+                                                           , look_for="maccabi_logo"
+                                                           , logger=init_log)
     init_log.info(f"maccabi_logo_list size={len(maccabi_logo_list)}")
     print(f"maccabi_logo_list size={len(maccabi_logo_list)}")
     assert len(maccabi_logo_list) == 1, f"There is not exactly one logo. expected=1 actual={len(maccabi_logo_list)}"
@@ -96,9 +96,9 @@ def test_button_dismiss(init_configs, init_log, handle_web_driver):
     alert_driver.dismiss()
     time.sleep(7)
     maccabi_logo_list = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID_LIST
-                                              , base_web_element=handle_web_driver
-                                              , look_for="maccabi_logo"
-                                              , logger=init_log)
+                                                           , base_web_element=handle_web_driver
+                                                           , look_for="maccabi_logo"
+                                                           , logger=init_log)
     init_log.info(f"maccabi_logo_list size={len(maccabi_logo_list)}")
     print(f"maccabi_logo_list size={len(maccabi_logo_list)}")
     assert len(maccabi_logo_list) == 0, f"There is at least one logo. expected=1 actual={len(maccabi_logo_list)}"
@@ -113,32 +113,38 @@ def test_dropdown_selection_random(init_configs, init_log, handle_web_driver):
     print(f"\nThe selected option is: {selection}")
     open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
     dropdown = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
-                                              , base_web_element=handle_web_driver
-                                              , look_for="dropdown"
-                                              , logger=init_log)
+                                                  , base_web_element=handle_web_driver
+                                                  , look_for="dropdown"
+                                                  , logger=init_log)
+
+    select = Select(dropdown)
     dropdown.click()
 
     # To show the click
     time.sleep(2)
 
-    option_selection = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
-                                              , base_web_element=handle_web_driver
-                                              , look_for=selection
-                                              , logger=init_log)
-    option_selection.click()
+    select.select_by_value(selection)
+
+    # option_selection = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
+    #                                           , base_web_element=handle_web_driver
+    #                                           , look_for=selection
+    #                                           , logger=init_log)
+    # option_selection.click()
 
     # To show the click
     time.sleep(2)
     dropdown.click()
 
     automation_practice = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
-                                              , base_web_element=handle_web_driver
-                                              , look_for="automationpractice_photo"
-                                              , logger=init_log)
+                                                             , base_web_element=handle_web_driver
+                                                             , look_for="automationpractice_photo"
+                                                             , logger=init_log)
+
     automation_practice_selection = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID_LIST
-                                              , base_web_element=automation_practice
-                                              , look_for=selection
-                                              , logger=init_log)
+                                                                       , base_web_element=automation_practice
+                                                                       , look_for=selection
+                                                                       , logger=init_log)
+
     init_log.info(f"automation_practice_selection size={len(automation_practice_selection)}")
     print(f"automation_practice_selection size={len(automation_practice_selection)}")
     assert len(automation_practice_selection) == 1, f"There is not exactly one logo for {selection}. expected=1 actual={len(automation_practice_selection)}"
@@ -147,6 +153,16 @@ def test_dropdown_selection_random(init_configs, init_log, handle_web_driver):
     init_log.info(f"automation_practice_selection id={background_id}")
     print(f"automation_practice_selection id={background_id}")
     assert background_id == selection, f"The id of the background is not {selection}. but is= {background_id}"
+
+
+def test_driver_execute_js(init_configs, init_log, handle_web_driver):
+    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    print(f"\nThe value of window.a at start is: {handle_web_driver.execute_script('return maccabi()')}")
+    print(f"The value of window.b id: {handle_web_driver.execute_script('return window.b')}")
+    handle_web_driver.execute_script('window.a = 42')
+    print(f"The value of window.a is now: {handle_web_driver.execute_script('return maccabi()')}")
+    assert handle_web_driver.execute_script(
+        'return maccabi()') == 42, f'The window.a value is not 42 but is: {handle_web_driver.execute_script("return maccabi()")}'
 
 
 # Functions just for this test
@@ -195,10 +211,9 @@ def temp_do_login(email, password, driver, logger: logging.Logger):
 
 def click_on_background_page_one_button(driver: webdriver, logger: logging.Logger):
     button = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
-                                              , base_web_element=driver
-                                              , look_for="alert_button"
-                                              , logger=logger)
+                                                , base_web_element=driver
+                                                , look_for="alert_button"
+                                                , logger=logger)
     logger.info("About to click on the background page one button")
     button.click()
     logger.info("The background page one button was clicked")
-
