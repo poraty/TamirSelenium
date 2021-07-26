@@ -9,7 +9,8 @@ import logging
 class WEB_ELEMENT_TYPE(Enum):
     CLASS = "class",
     ID = "id",
-    CLASSES_LIST = "classes_list"
+    CLASSES_LIST = "classes_list",
+    ID_LIST = "id_list"
 
 
 def find_class(current_base: WebElement, look_for: str, logger: logging.Logger): return get_class_web_element_with_base(current_base_class=current_base
@@ -27,10 +28,16 @@ def find_id(current_base: WebElement, look_for: str, logger: logging.Logger): re
                                                                                                                 , logger=logger)
 
 
+def find_id_list(current_base: WebElement, look_for: str, logger: logging.Logger): return get_id_web_elements(current_base_element=current_base
+                                                                                                                , look_for_id=look_for
+                                                                                                                , logger=logger)
+
+
 find_functions = {
                     WEB_ELEMENT_TYPE.CLASS.value: find_class,
                     WEB_ELEMENT_TYPE.CLASSES_LIST.value: find_classes_list,
-                    WEB_ELEMENT_TYPE.ID.value: find_id
+                    WEB_ELEMENT_TYPE.ID.value: find_id,
+                    WEB_ELEMENT_TYPE.ID_LIST.value: find_id_list
                   }
 
 
@@ -100,4 +107,15 @@ def get_id_web_element_by_base(current_base_element: WebElement, look_for_id: st
         # assert False, f"Failed to find the id: {id}. error={str(e)}"
         logger.error(f"Failed to find the id: {id}. error={str(e)}")
         print(f"Failed to find the id: {id}. error={str(e)}")  # Will add the log later
+        raise e
+
+
+def get_id_web_elements(current_base_element: WebElement, look_for_id: str, logger: logging.Logger) -> List[WebElement]:
+    try:
+        logger.info(f"Getting the web elements list by the id: {look_for_id}")
+        return current_base_element.find_elements_by_id(look_for_id)
+    except NoSuchElementException as e:
+        # assert False, f"Failed to find the class name: {class_name}. error={str(e)}"
+        logger.error(f"Failed to find the id: {look_for_id}. error={str(e)}")
+        print(f"Failed to find the id: {look_for_id}. error={str(e)}")  # Will add the log later
         raise e
