@@ -14,7 +14,9 @@ function showGoogleLogo() {
         myNode.removeChild(myNode.lastChild);
     }
     if (confirm("Do you wish the Google's logo to be shown?")) {
-        setTimeout(function(){ myNode.appendChild(elem) }, 3000);
+        setTimeout(function(){ myNode.appendChild(elem);
+        document.getElementById("maccabi_logo").innerText = "maccabi_logo"}
+        , 3000);
     }
 }
 
