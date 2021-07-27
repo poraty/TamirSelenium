@@ -147,7 +147,8 @@ def test_dropdown_selection_random(init_configs, init_log, handle_web_driver):
 
     init_log.info(f"automation_practice_selection size={len(automation_practice_selection)}")
     print(f"automation_practice_selection size={len(automation_practice_selection)}")
-    assert len(automation_practice_selection) == 1, f"There is not exactly one logo for {selection}. expected=1 actual={len(automation_practice_selection)}"
+    assert len(
+        automation_practice_selection) == 1, f"There is not exactly one logo for {selection}. expected=1 actual={len(automation_practice_selection)}"
 
     background_id = automation_practice_selection[0].get_attribute("id")
     init_log.info(f"automation_practice_selection id={background_id}")
@@ -163,6 +164,19 @@ def test_driver_execute_js(init_configs, init_log, handle_web_driver):
     print(f"The value of window.a is now: {handle_web_driver.execute_script('return maccabi()')}")
     assert handle_web_driver.execute_script(
         'return maccabi()') == 42, f'The window.a value is not 42 but is: {handle_web_driver.execute_script("return maccabi()")}'
+
+    script = 'return showPreferredBackgroundImage("Google")'
+    print(f"The value of window.a is now: {handle_web_driver.execute_script(script)}")
+    assert handle_web_driver.execute_script(
+        script) == "Google", f'The returned value of showPreferredBackgroundImage(Google) is not Google but is: {handle_web_driver.execute_script(script)}'
+
+    time.sleep(2)
+
+    script_with_arguments = 'return showPreferredBackgroundImage(arguments[0])'
+    print(
+        f"The value of window.a is now: {handle_web_driver.execute_script(script_with_arguments, 'Automation_Practice')}")
+    assert handle_web_driver.execute_script(script_with_arguments,
+                                            'Automation_Practice') == "Automation_Practice", f'The returned value of showPreferredBackgroundImage(arguments[0]) is not Google but is: {handle_web_driver.execute_script(script_with_arguments, "Automation_Practice")}'
 
 
 # Functions just for this test
