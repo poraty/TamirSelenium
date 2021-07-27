@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Shuki's 1st page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<body>
+
+<div id="automationpractice_photo" style="height:200px; width:100%;">
+</div>
+
+
+<div>
+  <button onclick="showMaccabiLogo()" style="float:right;">
+  	Maccabi Haifa 
+  </button>
+</div>
+
+
+<script>
+	function showMaccabiLogo() 
+	{
+		var elem = document.createElement("maccabi_logo");
+		elem.setAttribute("id", "maccabi_logo");
+		elem.setAttribute("src", "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+		elem.setAttribute("alt", "Image");
+		elem.setAttribute("height", "768");
+		elem.setAttribute("width", "1024");
+		elem.setAttribute("text", "SHUKI");
+		document.getElementById("automationpractice_photo").appendChild(elem); 
+	}
+</script>
+
+</body>
+</html>

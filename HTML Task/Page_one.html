@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Shuki's 1st page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="PageOneStyle.css">
+  </link>
+</head>
+
+<body onload="onloadFuc()">
+
+  <div class="header">
+    <h1>My Website</h1>
+    <p>This is <b>Shuki's</b> first website.</p>
+  </div>
+
+
+  <div class="practice" id="automationpractice_photo" style="height:200px; width:100%; object-fit:cover;">
+  </div>
+
+
+  <div class="navbar">
+    <a href="Page_two.html">Page Two</a>
+    <a href="Page_three.html">Page Three</a>
+    <button name="alert_button" id="alert_button" onclick="showGoogleLogo()" style="float:right;" class="right"> Background Page One</button>
+  </div>
+
+
+  <script src="PageOneJS.js"></script>
+
+
+  <div id="themeField">
+    <div id=leftField>
+      <div id="containerA">
+        <p> Let us know what is your preferred background image</p>
+        <select id="dropdown" onchange="showPreferredBackgroundImage(this.value)">
+          <option name="disabled" id="disabled" disabled value selected>THEME</option>
+          <option name="Maccabi" id="Maccabi" value="Maccabi">Maccabi</option>
+          <option name="Google" id="Google" value="Google">Google</option>
+          <option name="Automation_Practice" id="Automation_Practice" value="Automation_Practice">Automation Practice</option>
+        </select>
+        <div id="sampleImg"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="side">
+      <h2>About Me</h2>
+      <h5>Photo of me:</h5>
+      <div class="fakeimg" style="height:200px;">Image</div>
+      <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+      <h3>More Text</h3>
+      <p>Lorem ipsum dolor sit ame.</p>
+      <div class="fakeimg" style="height:60px;">Image</div><br>
+      <div class="fakeimg" style="height:60px;">Image</div><br>
+      <div class="fakeimg" style="height:60px;">Image</div>
+    </div>
+    <div class="main">
+      <h2>TITLE HEADING</h2>
+      <h5>Title description, Dec 7, 2017</h5>
+      <div class="fakeimg" style="height:200px;">Image</div>
+      <p>Some text..</p>
+      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+      </p>
+      <br>
+      <h2>TITLE HEADING</h2>
+      <h5>Title description, Sep 2, 2017</h5>
+      <div class="fakeimg" style="height:200px;">Image</div>
+      <p>Some text..</p>
+      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <h2>Footer</h2>
+  </div>
+
+</body>
+
+</html>

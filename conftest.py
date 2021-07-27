@@ -77,8 +77,8 @@ def get_web_driver() -> webdriver:
 
 
 def close_web_driver(driver: webdriver):
-    pass
-    # driver.quit()
+    # pass
+    driver.quit()
 
 
 @pytest.fixture(scope="function")

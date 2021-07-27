@@ -1,4 +1,4 @@
-import infra.helper.web_element.web_element_helper as web_element_helper
+from definitions import SHUKI_HTML_PAGE_ONE
 from infra.helper.web_element.web_element_helper import WEB_ELEMENT_TYPE as WEB_ELEMENT_TYPE
 import logic.login_page.login_page as login_page
 import logic.search.search_page as search_page
@@ -26,17 +26,17 @@ def test_tamir(init_configs, init_log, handle_web_driver):
     search_page.get_product_by_cost(product_containers_list, "$30.50", init_log)
 
 
-def test_shuki(init_configs, handle_web_driver, init_log):
-    handle_web_driver.get(init_configs["web_site_url"])
-    header = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.CLASS
-                                                , base_web_element=handle_web_driver
-                                                , look_for="header_user_info", logger=init_log)
-    init_log.info(header.text)
-    print(header.text)
+# def test_shuki(init_configs, handle_web_driver, init_log):
+#     handle_web_driver.get(init_configs["web_site_url"])
+#     header = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.CLASS
+#                                                 , base_web_element=handle_web_driver
+#                                                 , look_for="header_user_info", logger=init_log)
+#     init_log.info(header.text)
+#     print(header.text)
 
 
 def test_selenium_iframe(init_configs, init_log, handle_web_driver):
-    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    open_shuki_site(web_site_url=SHUKI_HTML_PAGE_ONE, driver=handle_web_driver, logger=init_log)
 
     # Go to page three on my website
     go_to_shuki_page("Page_three.html", handle_web_driver, init_log)
@@ -68,7 +68,7 @@ def test_selenium_iframe(init_configs, init_log, handle_web_driver):
 
 
 def test_button_accept(init_configs, init_log, handle_web_driver):
-    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    open_shuki_site(web_site_url=SHUKI_HTML_PAGE_ONE, driver=handle_web_driver, logger=init_log)
     click_on_background_page_one_button(handle_web_driver, init_log)
     alert_driver: webdriver = handle_web_driver.switch_to.alert
     alert_message = alert_driver.text
@@ -86,7 +86,7 @@ def test_button_accept(init_configs, init_log, handle_web_driver):
 
 
 def test_button_dismiss(init_configs, init_log, handle_web_driver):
-    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    open_shuki_site(web_site_url=SHUKI_HTML_PAGE_ONE, driver=handle_web_driver, logger=init_log)
     click_on_background_page_one_button(handle_web_driver, init_log)
     alert_driver: webdriver = handle_web_driver.switch_to.alert
     alert_message = alert_driver.text
@@ -111,7 +111,7 @@ def test_dropdown_selection_random(init_configs, init_log, handle_web_driver):
     selection = selection_options[index]
     init_log.info(f"The selected option is: {selection}")
     print(f"\nThe selected option is: {selection}")
-    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    open_shuki_site(web_site_url=SHUKI_HTML_PAGE_ONE, driver=handle_web_driver, logger=init_log)
     dropdown = web_element_helper.get_web_element(web_element_type=WEB_ELEMENT_TYPE.ID
                                                   , base_web_element=handle_web_driver
                                                   , look_for="dropdown"
@@ -157,7 +157,7 @@ def test_dropdown_selection_random(init_configs, init_log, handle_web_driver):
 
 
 def test_driver_execute_js(init_configs, init_log, handle_web_driver):
-    open_shuki_site(web_site_url=init_configs["Shuki_web_site_url"], driver=handle_web_driver, logger=init_log)
+    open_shuki_site(web_site_url=SHUKI_HTML_PAGE_ONE, driver=handle_web_driver, logger=init_log)
     print(f"\nThe value of window.a at start is: {handle_web_driver.execute_script('return maccabi()')}")
     print(f"The value of window.b id: {handle_web_driver.execute_script('return window.b')}")
     handle_web_driver.execute_script('window.a = 42')

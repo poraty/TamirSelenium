@@ -7,6 +7,5 @@
    "logging_format":"%(asctime)s [%(levelname)s] %(funcName)s(%(lineno)d): %(message)s",
    "date_format":"%Y_%m_%d %H_%M_%S",
    "default_log_name":"File_Log",
-   "log_level" : "DEBUG",
-   "Shuki_web_site_url":"C:/Users/PORATY/Desktop/HTML%20Task/Page_one.html"
+   "log_level" : "DEBUG"
 }
