@@ -13,25 +13,25 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 def test_actions(init_configs, init_log, handle_web_driver):
-    web_site_url = "http://demo.guru99.com/test/drag_drop.html"
+    web_site_url: str = "http://demo.guru99.com/test/drag_drop.html"
     init_log.info(f"Opening the address: {web_site_url}")
     handle_web_driver.get(web_site_url)
     num5000_list: List[WebElement] = handle_web_driver.find_elements_by_css_selector("#fourth > a")
-    print(num5000_list)
-    smallest_x_index = 0
-    smallest_x = -1
-    index = 0
+    print(len(num5000_list))
+    smallest_x_index: int = 0
+    smallest_x: int = -1
+    index: int = 0
     for elm in num5000_list:
         if smallest_x == -1:
             smallest_x = elm.location['x']
-            index = +1
+            index += 1
             break
 
         if elm.location['x'] < smallest_x:
             smallest_x = elm.location['x']
             smallest_x_index = index
 
-        index = +1
+        index += 1
 
     left5000 = num5000_list.pop(smallest_x_index)
     # print(f"\nleft5000.x={left5000.location['x']} left5000.y={left5000.location['y']}")

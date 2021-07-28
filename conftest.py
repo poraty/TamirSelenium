@@ -84,10 +84,10 @@ def close_web_driver(driver: webdriver):
 @pytest.fixture(scope="function")
 def init_log(request, init_configs) -> logging.Logger:
     # init_log_levels_dict()
-    print(f"At setup the test name is {request.node.name}")
+    print(f"\nAt log setup the test name is {request.node.name}")
     log_helper.create_log_file(request, init_configs)
     # logging.getLogger(f'File_Log_{request.node.name}').info(f"At setup the test name is: {request.node.name}")
-    logging.getLogger('File_Log').info(f"At setup the test name is: {request.node.name}")
+    logging.getLogger('File_Log').info(f"At log setup the test name is: {request.node.name}")
     return logging.getLogger('File_Log')
 
 # def init_log_levels_dict() -> dict:

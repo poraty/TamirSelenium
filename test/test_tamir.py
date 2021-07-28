@@ -228,6 +228,7 @@ def click_on_background_page_one_button(driver: webdriver, logger: logging.Logge
                                                 , base_web_element=driver
                                                 , look_for="alert_button"
                                                 , logger=logger)
+
     logger.info("About to click on the background page one button")
     button.click()
     logger.info("The background page one button was clicked")
