@@ -22,7 +22,6 @@ def test_actions(init_configs, init_log, handle_web_driver):
     smallest_x = -1
     index = 0
     for elm in num5000_list:
-        pass
         if smallest_x == -1:
             smallest_x = elm.location['x']
             index = +1
