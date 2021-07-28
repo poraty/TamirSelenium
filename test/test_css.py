@@ -83,7 +83,7 @@ def test_wait(init_configs, init_log, handle_web_driver):
     init_log.info(f"The alert message is: {alert_message}")
     print(f"\nThe alert message is: {alert_message}")
     alert_driver.accept()
-    maccabi_logo = wait(driver=handle_web_driver, css="#maccabi_logo", time_to_wait=5)
+    maccabi_logo = wait_until_element_is_located(driver=handle_web_driver, css="#maccabi_logo", time_to_wait=5)
     assert maccabi_logo.text == "maccabi_logo"
 
 
@@ -98,7 +98,7 @@ def test_wait_less_time(init_configs, init_log, handle_web_driver):
     print(f"\nThe alert message is: {alert_message}")
     alert_driver.accept()
     try:
-        wait(driver=handle_web_driver, css="#maccabi_logo", time_to_wait=1)
+        wait_until_element_is_located(driver=handle_web_driver, css="#maccabi_logo", time_to_wait=1)
         assert False, "The timeout was not long enough!"
     except TimeoutException as e:
         # assert e.__class__ == TimeoutException.__class__, f"The exception was not TimeoutException but was {e.msg}"
@@ -106,5 +106,5 @@ def test_wait_less_time(init_configs, init_log, handle_web_driver):
         assert True
 
 
-def wait(driver: webdriver, css: str, time_to_wait: int) -> WebElement:
+def wait_until_element_is_located(driver: webdriver, css: str, time_to_wait: int) -> WebElement:
     return WebDriverWait(driver, time_to_wait).until(ec.visibility_of_element_located((By.CSS_SELECTOR, css)))
