@@ -42,20 +42,24 @@ def get_search_results(search_query: str, driver: webdriver, logger: logging.Log
 
 
 def get_product_by_cost(product_containers_list: list, cost: str, logger: logging.Logger) -> WebElement:
+    index: int = 0
     for elm in product_containers_list:
-        logger.info(elm.find_element_by_class_name("right-block").find_element_by_class_name("price").text)
+        current_cost: str = elm.find_element_by_class_name("right-block").find_element_by_class_name("price").text
+        logger.info(current_cost)
         # print(elm.find_element_by_class_name("right-block").find_element_by_class_name("price").text)
         # Why this is not the right action to get the cost?
         # print(elm.find_element_by_class_name("product-price").text)
 
         # The right action
-        is_found = (cost == elm.find_element_by_class_name("right-block").find_element_by_class_name("price").text)
+        is_found = (cost == current_cost)
         logger.info(is_found)
         # print(is_found)
         if is_found:
             # elm.click()
-            logger.info(f"The item with the cost= {cost} is found!")
-            # print(f"The item with the cost= {cost} is found!")
+            logger.info(f"The item with the cost= {cost} was found!. index= {index}")
+            print(f"The item with the cost= {cost} was found!. index= {index}")
             return elm
+
+        index += 1
 
     assert False, f"Didn't find the cost: {cost}"

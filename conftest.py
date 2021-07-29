@@ -7,6 +7,7 @@ import logging
 import datetime
 from enum import Enum
 import infra.helper.log.log_helper as log_helper
+from logic.page.main_page import MainPage
 
 configuration: dict
 
@@ -79,6 +80,14 @@ def get_web_driver() -> webdriver:
 def close_web_driver(driver: webdriver):
     # pass
     driver.quit()
+
+
+@pytest.fixture(scope="function")
+def setup_main_page(request) -> MainPage:
+    driver = get_web_driver()
+    driver.get("http://automationpractice.com/index.php")
+    yield MainPage(driver)
+    close_web_driver(driver)
 
 
 @pytest.fixture(scope="function")
